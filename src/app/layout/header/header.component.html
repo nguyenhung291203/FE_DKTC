@@ -1,0 +1,31 @@
+<header class="bg text-white py-4">
+  <div class="container mx-auto flex justify-between">
+    <nav>
+      <a href="" class="font-bold">HỌC VIỆN KỸ THUẬT MẬT MÃ</a>
+    </nav>
+    <nav class="flex items-center justify-between">
+      <ul class="flex space-x-4">
+        <li><a href="" class="nav-link">Trang chủ</a></li>
+        <li>
+          <a href="score" class="nav-link">Điểm</a>
+        </li>
+        <li>
+          <a href="class" class="nav-link">Lớp học</a>
+        </li>
+        <li>
+
+          <a href="register-course" class="nav-link">Đăng ký học phần</a>
+        </li>
+        
+      </ul>
+      <ul>
+        <li *ngIf="!checkToken">
+          <a href="login" class="nav-link ml-16">Đăng nhập</a>
+        </li>
+        <li *ngIf="checkToken">
+          <a (click)="logout()" class="nav-link ml-16 cursor-pointer">Đăng xuất</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
