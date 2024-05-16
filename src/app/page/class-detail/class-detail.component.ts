@@ -14,6 +14,8 @@ export class ClassDetailComponent implements OnInit {
   classResponse!: ClassResponse;
   students!: StudentInfo[];
   studentsClass!: StudentClass[];
+  student!: StudentClass;
+  isOpenModel: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private classService: ClassService,
@@ -77,5 +79,20 @@ export class ClassDetailComponent implements OnInit {
           }
         });
     });
+  }
+  openModel(student: StudentClass): void {
+    this.student = student;
+    this.isOpenModel = true;
+  }
+  closeModel(): void {
+    this.isOpenModel = false;
+  }
+  handleSubmit($event: any): void {
+    const scoreNumberOne = $event.target.elements.scoreNumberOne.value;
+    const scoreNumberThree = $event.target.elements.scoreNumberThree.value;
+    const scoreNumberTwo = $event.target.elements.scoreNumberTwo.value;
+    if (scoreNumberOne && scoreNumberTwo && scoreNumberThree) {
+      
+    }
   }
 }

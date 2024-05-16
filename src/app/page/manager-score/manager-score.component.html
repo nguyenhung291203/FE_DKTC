@@ -7,6 +7,10 @@
     <strong>Khoa:</strong>
     {{ teacher.majorName }}
   </p>
+  <p class="text-xl">
+    <strong>Số lớp quản lý:</strong>
+    {{ teacher.classes.length }}
+  </p>
 </div>
 
 <div class="p-5 space-y-5" *ngIf="teacher.classes">
@@ -60,15 +64,17 @@
         <p class="mb-2 text-gray-500 dark:text-gray-400">
           Địa chỉ: {{ class.address }}
         </p>
-        <p class="mb-2 text-gray-500 dark:text-gray-400">
-          Sĩ số: {{ class.registered }}
-        </p>
+
         <p class="mb-2 text-gray-500 dark:text-gray-400">
           Thời gian học: {{ class.time }} từ ngày {{ class.startDate }} đến
           {{ class.endDate }}
         </p>
-        <a [href]="'manager-score/'+class.id" target="_blank" class="mb-2 text-gray-500 dark:text-gray-400 hover:underline cursor-pointer">
-            >>Xem chi tiết lớp học
+        <a
+          [href]="'manager-score/' + class.id"
+          target="_blank"
+          class="mb-2 text-gray-500 dark:text-gray-400 hover:underline cursor-pointer"
+        >
+          >>Xem chi tiết lớp học
         </a>
       </div>
     </div>
