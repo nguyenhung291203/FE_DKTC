@@ -22,6 +22,12 @@ export class ClassService {
   getClassByCodeCourse(
     codeCourse: string
   ): Observable<HttpResponse<ClassResponse[]>> {
-    return this.apiService.get(urlApi + '/class/search-by-code-course?code_course=' + codeCourse);
+    return this.apiService.get(
+      urlApi + '/class/search-by-code-course?code_course=' + codeCourse
+    );
+  }
+
+  getClassById(id: number): Observable<HttpResponse<ClassResponse>> {
+    return this.apiService.get(urlApi + '/class/' + id);
   }
 }

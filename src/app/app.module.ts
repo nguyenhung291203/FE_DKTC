@@ -15,7 +15,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ScoreComponent } from './page/score/score.component';
 import { ClassComponent } from './page/class/class.component';
-
+import { LayoutStudentComponent } from './layout/layout-private/layout-student/layout-student.component';
+import { LayoutTeacherComponent } from './layout/layout-private/layout-teacher/layout-teacher.component';
+import { ManagerScoreComponent } from './page/manager-score/manager-score.component';
+import { ClassDetailComponent } from './page/class-detail/class-detail.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +31,10 @@ import { ClassComponent } from './page/class/class.component';
     LoginComponent,
     ScoreComponent,
     ClassComponent,
+    LayoutStudentComponent,
+    LayoutTeacherComponent,
+    ManagerScoreComponent,
+    ClassDetailComponent
   ],
   imports: [BrowserModule, AppRoutingModule, FormsModule, HttpClientModule],
   providers: [],

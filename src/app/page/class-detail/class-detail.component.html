@@ -1,0 +1,56 @@
+<div class="p-5 space-y-5" *ngIf="classResponse">
+  <p class="text-xl">
+    <strong>Học phần:</strong>
+    {{ classResponse.courseName }} - {{ classResponse.codeCourse }} -
+    {{ classResponse.className }}
+  </p>
+  <p class="text-xl">
+    <strong>Giảng viên:</strong>
+    {{ classResponse.teacherName }}
+  </p>
+  <p class="text-xl">
+    <strong>Số TC:</strong>
+    {{ classResponse.credit }}
+  </p>
+
+  <div class="overflow-x-auto">
+    <table class="table w-full">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th class="text-left">Mã sinh viên</th>
+          <th class="text-left">Họ tên</th>
+          <th class="text-left">Ngày sinh</th>
+          <th class="text-left">Điểm thành phần 1</th>
+          <th class="text-left">Điểm thành phần 2</th>
+          <th class="text-left">Điểm thi</th>
+          <th class="text-left">Điểm tổng kết</th>
+          <th class="text-left">Điểm chữ</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="studentsClass">
+        <tr class="hover" *ngFor="let student of studentsClass; let i = index">
+          <td class="text-left">{{ i + 1 }}</td>
+          <td class="text-left">{{ student.id }}</td>
+          <td class="text-left">{{ student.name }}</td>
+          <td class="text-left">{{ student.dateOfBirth }}</td>
+          <td class="text-left">
+            {{ roundToTwoDecimalPlaces(student.scoreNumberOne) }}
+          </td>
+          <td class="text-left">
+            {{ roundToTwoDecimalPlaces(student.scoreNumberTwo) }}
+          </td>
+          <td class="text-left">
+            {{ roundToTwoDecimalPlaces(student.scoreNumberThree) }}
+          </td>
+          <td class="text-left">
+            {{ roundToTwoDecimalPlaces(student.scoreTotal) }}
+          </td>
+          <td class="text-left">
+            {{ student.scoreLetter }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

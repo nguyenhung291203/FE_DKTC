@@ -11,27 +11,35 @@ import { ClassService } from './class.service';
   providedIn: 'root',
 })
 export class StudentService {
-  student!: StudentInfo;
-  studentClass!: ClassResponse[];
-  
+  // student!: StudentInfo;
+  // studentClass!: ClassResponse[];
+
   constructor(
     private apiService: ApiService,
     private classService: ClassService
   ) {
-    this.getStudentInfo().subscribe((data: HttpResponse<StudentInfo>) => {
-      if (data.body) {
-        this.student = data.body;
-        this.classService
-          .getClassByStudentId(this.student.id)
-          .subscribe((data: HttpResponse<ClassResponse[]>) => {
-            if (data.body) {
-              this.studentClass = data.body;
-            }
-          });
-      }
-    });
+    // this.getStudentInfo().subscribe((data: HttpResponse<StudentInfo>) => {
+    //   if (data.body) {
+    //     this.student = data.body;
+    //     this.classService
+    //       .getClassByStudentId(this.student.id)
+    //       .subscribe((data: HttpResponse<ClassResponse[]>) => {
+    //         if (data.body) {
+    //           this.studentClass = data.body;
+    //         }
+    //       });
+    //   }
+    // });
   }
   getStudentInfo(): Observable<HttpResponse<StudentInfo>> {
     return this.apiService.get(urlApi + '/student/info');
+  }
+
+  getListStudentInfoByClassId(
+    id: number
+  ): Observable<HttpResponse<StudentInfo[]>> {
+    return this.apiService.get(
+      urlApi + '/student/list-student-info?class_id=' + id
+    );
   }
 }

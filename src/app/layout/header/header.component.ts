@@ -10,21 +10,28 @@ import { Subscription } from 'rxjs';
 })
 export class HeaderComponent implements OnDestroy {
   checkToken: boolean;
+  token: string|undefined;
   private checkTokenSubscription: Subscription;
 
   constructor(private authService: AuthService, private router: Router) {
     this.checkToken = this.authService.checkToken.getValue();
     this.checkTokenSubscription = this.authService.checkToken.subscribe(
-      (value) => (this.checkToken = value)
+      (value) => {
+        this.checkToken = value;
+        const data = localStorage.getItem('token');
+        if (data) {
+          this.token = JSON.parse(data);
+        }
+      }
     );
   }
 
   ngOnDestroy(): void {
     this.checkTokenSubscription.unsubscribe();
+    this.token = undefined;
   }
 
   logout(): void {
-    // localStorage.removeItem('accessToken');
     this.authService.setCheckToken(false);
     localStorage.clear();
     this.router.navigateByUrl('login');

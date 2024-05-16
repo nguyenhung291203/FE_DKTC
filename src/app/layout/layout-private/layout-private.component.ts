@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
+
 @Component({
   selector: 'app-layout-private',
   templateUrl: './layout-private.component.html',
@@ -9,8 +10,13 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LayoutPrivateComponent implements OnInit {
   checkToken: boolean;
+  token!:string;
   constructor(private authService: AuthService, private router: Router) {
     this.checkToken = this.authService.checkToken.getValue();
+    const data = localStorage.getItem('token');
+    if (data){
+      this.token = data;
+    }
     if (!this.checkToken) {
       this.router.navigateByUrl('login');
     }

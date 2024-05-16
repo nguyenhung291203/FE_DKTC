@@ -17,3 +17,18 @@ export interface StudentInfo {
   debt: number;
   gpa: number;
 }
+
+export interface StudentClass {
+  id: number;
+  dateOfBirth: Date;
+  majorName: string;
+  name: string;
+  completed: number;
+  debt: number;
+  gpa: number;
+  scoreLetter: string;
+  scoreNumberOne: number | string;
+  scoreNumberThree: number | string;
+  scoreNumberTwo: number | string;
+  scoreTotal: number | string;
+}
