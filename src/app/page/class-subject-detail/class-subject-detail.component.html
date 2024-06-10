@@ -1,0 +1,203 @@
+<ng-container *ngIf="classSubject">
+  <p class="mb-2 text-gray-500 dark:text-gray-400">
+    <strong>Mã lớp: </strong> {{ classSubject.id }}
+  </p>
+  <p class="mb-2 text-gray-500 dark:text-gray-400">
+    <strong>Môn học: </strong> {{ classSubject.subject.name }}
+  </p>
+  <p class="mb-2 text-gray-500 dark:text-gray-400">
+    <strong>Số TC: </strong> {{ classSubject.subject.credit }}
+  </p>
+  <p class="mb-2 text-gray-500 dark:text-gray-400">
+    <strong>Lý thuyết: </strong> {{ classSubject.subject.theory }}
+  </p>
+  <p class="mb-2 text-gray-500 dark:text-gray-400">
+    <strong>Thực hành: </strong> {{ classSubject.subject.practice }}
+  </p>
+  <p class="mb-2 text-gray-500 dark:text-gray-400" *ngIf="listPoint">
+    <strong>Sĩ số: </strong> {{ listPoint.length }}
+  </p>
+
+  <div class="mb-3">
+    <form>
+      <input
+        type="file"
+        class="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100"
+        (change)="onFileChange($event)"
+      />
+    </form>
+  </div>
+  <button class="btn bg-gray-900 mr-4" (click)="importExcel()">Import</button>
+  <button class="btn bg-gray-900" (click)="exportExcel()">Export</button>
+
+  <table class="table w-full" *ngIf="listPoint">
+    <thead>
+      <tr>
+        <th class="text-left">STT</th>
+        <th class="text-left">Mã SV</th>
+        <th class="text-left">Họ và tên</th>
+        <th class="text-left">Ngày sinh</th>
+        <th class="text-left">Điểm chuyên cần</th>
+        <th class="text-left">Điểm giữa kì</th>
+        <th class="text-left">Điểm thi</th>
+        <th class="text-left">Điểm môn học</th>
+        <th class="text-left">Thành chữ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="hover"
+        *ngFor="let point of listPoint; index as i"
+        (click)="handleSelectPoint(point)"
+      >
+        <td class="font-bold lg:!static">{{ i + 1 }}</td>
+        <td>{{ point.student.id }}</td>
+        <td>{{ point.student.name }}</td>
+        <td>{{ point.student.dateOfBirth }}</td>
+        <td>{{ point.scoreNumberOne }}</td>
+        <td>{{ point.scoreNumberTwo }}</td>
+        <td>{{ point.scoreNumberThree }}</td>
+        <td>{{ point.scoreTotal }}</td>
+        <td>{{ point.scoreLetter }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div
+    *ngIf="point"
+    id="crud-modal"
+    tabindex="-1"
+    aria-hidden="true"
+    class="fixed top-0 left-0 w-full h-full flex justify-center items-center"
+  >
+    <div class="relative p-4 w-full max-w-md max-h-full">
+      <!-- Modal content -->
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <!-- Modal header -->
+        <div
+          class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
+        >
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+            Sửa điểm
+          </h3>
+          <button
+            (click)="handleCloseModel()"
+            type="button"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+            data-modal-toggle="crud-modal"
+          >
+            <svg
+              class="w-3 h-3"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 14 14"
+            >
+              <path
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+              />
+            </svg>
+            <span class="sr-only">Close modal</span>
+          </button>
+        </div>
+        <!-- Modal body -->
+        <form class="p-4 md:p-5">
+          <div class="grid gap-4 mb-4 grid-cols-3">
+            <div class="col-span-1">
+              <label
+                for="id"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Mã SV</label
+              >
+              <input
+                type="text"
+                name="id"
+                id="id"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                [value]="point.student.id"
+                readonly
+              />
+            </div>
+            <div class="col-span-2">
+              <label
+                for="name"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Tên sinh viên</label
+              >
+              <input
+                type="text"
+                name="name"
+                id="name"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                [value]="point.student.name"
+                readonly
+              />
+            </div>
+            <div class="col-span-1 sm:col-span-1">
+              <label
+                for="scoreNumberOne"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Điểm chuyên cần</label
+              >
+              <input
+                #scoreNumberOneInput
+                type="number"
+                name="scoreNumberOne"
+                id="scoreNumberOne"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                [value]="point.scoreNumberOne"
+                min="0"
+                max="10"
+              />
+            </div>
+            <div class="col-span-1 sm:col-span-1">
+              <label
+                for="scoreNumberTwo"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Điểm giữa kì</label
+              >
+              <input
+                #scoreNumberTwoInput
+                type="number"
+                name="scoreNumberTwo"
+                id="scoreNumberTwo"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                [value]="point.scoreNumberTwo"
+                min="0"
+                max="10"
+              />
+            </div>
+            <div class="col-span-1 sm:col-span-1">
+              <label
+                for="scoreNumberThree"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >Điểm thi</label
+              >
+              <input
+                #scoreNumberThreeInput
+                type="number"
+                name="scoreNumberThree"
+                id="scoreNumberThree"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                [value]="point.scoreNumberThree"
+                min="0"
+                max="10"
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            (click)="handleSubmit()"
+            class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            Gửi
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-container>

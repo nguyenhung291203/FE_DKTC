@@ -1,14 +1,20 @@
-import { ClassResponse } from './class.models';
+import { JwtAuthResponse } from './jwtAuthResponse.models';
+import { Unit } from './unit.models';
+import { User } from './user.models';
 
 export interface Teacher {
-  id: number;
+  id: string;
   name: string;
-  majorName: string;
+  unit: Unit;
+  position: string;
+  user: User;
 }
 
-export interface TeacherInfo {
-  id: number;
+export interface UserTeacherResponse {
+  id: string;
   name: string;
-  majorName: string;
-  classes: ClassResponse[];
+  unit: Unit;
+  position: string;
+  user: User;
+  jwtAuthResponse: JwtAuthResponse;
 }

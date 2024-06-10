@@ -1,6 +1,6 @@
 <app-header />
 
-<main class="container mx-auto" *ngIf="checkToken && token">
+<main class="container mx-auto" *ngIf="token">
   <router-outlet></router-outlet>
   <!-- <app-layout-student *ngIf="token === 'ROLE_STUDENT'"></app-layout-student>
   <app-layout-teacher *ngIf="token === 'ROLE_TEACHER'"></app-layout-teacher> -->

@@ -6,5 +6,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./layout-teacher.component.scss']
 })
 export class LayoutTeacherComponent {
-
+  token: string | undefined;
+  constructor() {
+    const data = localStorage.getItem('token');
+    if (data) {
+      this.token = JSON.parse(data);
+    }
+  }
 }

@@ -1,4 +1,4 @@
-export interface Major {
+export interface Role {
   id: number;
   name: string;
 }

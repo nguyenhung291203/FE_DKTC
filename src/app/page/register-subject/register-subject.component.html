@@ -1,0 +1,103 @@
+<div class="flex mb-4">
+  <h2 class="text-2xl">Đăng ký giáo dục thể chất</h2>
+  <form class="max-w-sm mx-auto" *ngIf="listSubject">
+    <select
+      id="subjects"
+      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      (change)="handleChange($event)"
+    >
+      <option value="">
+        <span>Mặc định</span>
+      </option>
+      <option *ngFor="let subject of listSubject" [value]="subject.id">
+        <span *ngIf="subject.required">{{ subject.name }} (bắt buộc)</span>
+        <span *ngIf="!subject.required">{{ subject.name }}</span>
+      </option>
+    </select>
+  </form>
+</div>
+<div class="overflow-x-auto mb-4">
+  <table class="table w-full" *ngIf="listClassSubject">
+    <thead>
+      <tr>
+        <th>Chọn</th>
+        <th class="text-left">Môn học</th>
+        <th class="text-left">TC</th>
+        <th class="text-left">Lớp môn học</th>
+        <th class="text-left">Tổng sinh viên</th>
+        <th class="text-left">Đã đăng ký</th>
+        <th class="text-left">Giáo viên</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="hover"
+        *ngFor="let classSubject of listClassSubject"
+        (click)="handleSelectClassSubjectId(classSubject.id)"
+      >
+        <th class="font-bold lg:!static">
+          <input
+            type="checkbox"
+            [checked]="classSubjectId == classSubject.id"
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+        </th>
+        <td>{{ classSubject.subject.name }}</td>
+        <td>{{ classSubject.subject.credit }}</td>
+        <td>{{ classSubject.id }}</td>
+        <td>{{ classSubject.size }}</td>
+        <td>{{ classSubject.registered }}</td>
+        <td>{{ classSubject.teacher.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<button
+  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 block ml-auto"
+  (click)="handleRegister()"
+>
+  Đăng ký
+</button>
+
+<p class="text-2xl">Học phần đã đăng ký</p>
+<div class="overflow-x-auto mb-4"  #content>
+  <table class="table w-full mb-4" *ngIf="listClassSubject">
+    <thead>
+      <tr>
+        <th>STT</th>
+        <th class="text-left">Môn học</th>
+        <th class="text-left">TC</th>
+        <th class="text-left">Lớp môn học</th>
+        <th class="text-left">Tổng sinh viên</th>
+        <th class="text-left">Đã đăng ký</th>
+        <th class="text-left">Giáo viên</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="hover"
+        *ngFor="let classSubject of listClassSubjectOfStudent; index as i"
+      >
+        <th class="font-bold lg:!static">
+          {{ i + 1 }}
+        </th>
+        <td>{{ classSubject.subject.name }}</td>
+        <td>{{ classSubject.subject.credit }}</td>
+        <td>{{ classSubject.id }}</td>
+        <td class="text-left">{{ classSubject.size }}</td>
+        <td>{{ classSubject.registered }}</td>
+        <td>{{ classSubject.teacher.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="flex justify-between items-center">
+    <p>
+      <strong> Tổng số tín chỉ đã đăng ký: </strong>
+      {{ listClassSubjectOfStudent.length }}
+    </p>
+    <button class="btn inline-block bg-gray-900 mr-4" (click)="handleExport()">
+      Xem và in
+    </button>
+  </div>
+</div>
+

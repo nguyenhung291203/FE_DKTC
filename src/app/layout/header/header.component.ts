@@ -1,39 +1,31 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Subscription } from 'rxjs';
+import { UserTeacherResponse } from 'src/app/models/teacher.models';
+import { UserStudentResponse } from 'src/app/models/student.models';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnDestroy {
-  checkToken: boolean;
-  token: string|undefined;
-  private checkTokenSubscription: Subscription;
+export class HeaderComponent implements OnInit, OnDestroy {
+  access: UserTeacherResponse | UserStudentResponse | undefined;
+  subscription = Subscription.EMPTY;
 
-  constructor(private authService: AuthService, private router: Router) {
-    this.checkToken = this.authService.checkToken.getValue();
-    this.checkTokenSubscription = this.authService.checkToken.subscribe(
-      (value) => {
-        this.checkToken = value;
-        const data = localStorage.getItem('token');
-        if (data) {
-          this.token = JSON.parse(data);
-        }
-      }
-    );
+  constructor(private authService: AuthService, private router: Router) {}
+  ngOnInit(): void {
+    this.subscription = this.authService.access$.subscribe((data) => {
+      this.access = data;
+    });
   }
-
   ngOnDestroy(): void {
-    this.checkTokenSubscription.unsubscribe();
-    this.token = undefined;
+    this.subscription.unsubscribe();
   }
-
   logout(): void {
-    this.authService.setCheckToken(false);
     localStorage.clear();
+    this.authService.setAccess();
     this.router.navigateByUrl('login');
   }
 }

@@ -9,15 +9,15 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./layout-private.component.scss'],
 })
 export class LayoutPrivateComponent implements OnInit {
-  checkToken: boolean;
+  
   token!:string;
   constructor(private authService: AuthService, private router: Router) {
-    this.checkToken = this.authService.checkToken.getValue();
-    const data = localStorage.getItem('token');
+    
+    const data = localStorage.getItem('access');
     if (data){
       this.token = data;
     }
-    if (!this.checkToken) {
+    if (!data) {
       this.router.navigateByUrl('login');
     }
   }

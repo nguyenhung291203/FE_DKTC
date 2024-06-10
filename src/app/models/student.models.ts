@@ -1,34 +1,20 @@
-import { Result, StudentResult } from './result.models';
+import { ClassStudent } from './classStudent.models';
+import { JwtAuthResponse } from './jwtAuthResponse.models';
+import { User } from './user.models';
 
 export interface Student {
-  id?: number;
+  id: string;
   name: string;
-  address: string;
-  date: Date;
+  dateOfBirth: Date;
+  classStudent: ClassStudent;
+  user: User;
 }
 
-export interface StudentInfo {
-  id: number;
-  dateOfBirth: Date;
-  majorName: string;
+export interface UserStudentResponse {
+  id: string;
   name: string;
-  results: StudentResult[];
-  completed: number;
-  debt: number;
-  gpa: number;
-}
-
-export interface StudentClass {
-  id: number;
   dateOfBirth: Date;
-  majorName: string;
-  name: string;
-  completed: number;
-  debt: number;
-  gpa: number;
-  scoreLetter: string;
-  scoreNumberOne: number | string;
-  scoreNumberThree: number | string;
-  scoreNumberTwo: number | string;
-  scoreTotal: number | string;
+  classStudent: ClassStudent;
+  user: User;
+  jwtAuthResponse: JwtAuthResponse;
 }

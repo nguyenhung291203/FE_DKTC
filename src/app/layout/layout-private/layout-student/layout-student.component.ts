@@ -7,10 +7,5 @@ import { Component } from '@angular/core';
 })
 export class LayoutStudentComponent {
   token: string | undefined;
-  constructor() {
-    const data = localStorage.getItem('token');
-    if (data) {
-      this.token = JSON.parse(data);
-    }
-  }
+  constructor() {}
 }

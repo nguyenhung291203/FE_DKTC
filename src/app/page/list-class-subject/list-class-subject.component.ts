@@ -1,29 +1,25 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { ClassSubject } from 'src/app/models/classSubject.models';
-import { Teacher, UserTeacherResponse } from 'src/app/models/teacher.models';
+import { UserStudentResponse } from 'src/app/models/student.models';
 import { ClassSubjectService } from 'src/app/services/class-subject.service';
 
 @Component({
-  selector: 'app-manager-score',
-  templateUrl: './manager-score.component.html',
-  styleUrls: ['./manager-score.component.scss'],
+  selector: 'app-list-class-subject',
+  templateUrl: './list-class-subject.component.html',
+  styleUrls: ['./list-class-subject.component.scss'],
 })
-export class ManagerScoreComponent implements OnInit {
-  teacher!: UserTeacherResponse;
+export class ListClassSubjectComponent implements OnInit {
+  student!: UserStudentResponse;
   listClassSubject!: ClassSubject[];
   idClassSubject!: string | null;
-  constructor(
-    private classSubjectService: ClassSubjectService,
-    private router: Router
-  ) {}
+  constructor(private classSubjectService: ClassSubjectService) {}
   ngOnInit(): void {
     const data = localStorage.getItem('access');
     if (data) {
-      this.teacher = JSON.parse(data);
       this.classSubjectService
-        .searchListClassSubjectsByTeacherId(this.teacher.id)
-        .subscribe((data) => {
+        .getClassSubjectByStudentId(JSON.parse(data).id)
+        .subscribe((data: HttpResponse<ClassSubject[]>) => {
           if (data.body) {
             this.listClassSubject = data.body;
           }
@@ -34,5 +30,4 @@ export class ManagerScoreComponent implements OnInit {
     this.idClassSubject =
       this.idClassSubject === idClassSubject ? null : idClassSubject;
   }
-  handleTranfer(idClassSubject: string): void {}
 }

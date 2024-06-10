@@ -1,19 +1,25 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { catchError } from 'rxjs/internal/operators/catchError';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { UserTeacherResponse } from '../models/teacher.models';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ApiService {
+export class ApiService implements OnInit {
   constructor(private httpClient: HttpClient) {}
+  ngOnInit(): void {}
 
-  // Get call method
-  // Param 1 : url
   get(url: string): Observable<any> {
-    const token = localStorage.getItem('accessToken');
+    const data = localStorage.getItem('access');
+    let token = '';
+    if (data) {
+      const res = JSON.parse(data);
+      token =
+        res.jwtAuthResponse.tokenType + ' ' + res.jwtAuthResponse.accessToken;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -27,12 +33,14 @@ export class ApiService {
       catchError(this.handleError)
     );
   }
-
-  // Post call method
-  // Param 1 : url
-  // Param 2 : model
   post(url: string, model: any): Observable<any> {
-    const token = localStorage.getItem('accessToken');
+    const data = localStorage.getItem('access');
+    let token = '';
+    if (data) {
+      const res = JSON.parse(data);
+      token =
+        res.jwtAuthResponse.tokenType + ' ' + res.jwtAuthResponse.accessToken;
+    }
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

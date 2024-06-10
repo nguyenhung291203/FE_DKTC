@@ -1,33 +1,44 @@
 <header class="bg text-white py-4">
   <div class="container mx-auto flex justify-between">
     <nav>
-      <a href="" class="font-bold">HỌC VIỆN KỸ THUẬT MẬT MÃ</a>
+      <a href="" class="font-bold"> ĐẠI HỌC QUỐC GIA HÀ NỘI </a>
     </nav>
     <nav class="flex items-center justify-between">
-      <ul class="flex space-x-4" *ngIf="token == 'ROLE_STUDENT' && checkToken">
-        <li><a href="" class="nav-link">Trang chủ</a></li>
-        <li>
-          <a href="score" class="nav-link">Điểm</a>
-        </li>
-        <li>
-          <a href="class" class="nav-link">Lớp học</a>
-        </li>
-        <li>
-          <a href="register-course" class="nav-link">Đăng ký học phần</a>
-        </li>
-      </ul>
-      <ul class="flex space-x-4" *ngIf="token == 'ROLE_TEACHER' && checkToken">
+      <ul class="flex space-x-4">
         <li><a href="" class="nav-link">Trang chủ</a></li>
 
-        <li>
-          <a href="manager-score" class="nav-link">Quản lý điểm</a>
+        <li *ngIf="access">
+          <a
+            *ngIf="access.jwtAuthResponse.role === 'ROLE_TEACHER'"
+            href="manager-score"
+            class="nav-link"
+            >Quản lý điểm</a
+          >
+          <a
+            *ngIf="access.jwtAuthResponse.role === 'ROLE_STUDENT'"
+            href="result-detail"
+            class="nav-link"
+            >Kết quả học tập</a
+          >
+          <a
+            *ngIf="access.jwtAuthResponse.role === 'ROLE_STUDENT'"
+            href="list-class-subject"
+            class="nav-link"
+            >Lớp học</a
+          >
+          <a
+            *ngIf="access.jwtAuthResponse.role === 'ROLE_STUDENT'"
+            href="register-result"
+            class="nav-link"
+            >Đăng ký môn</a
+          >
         </li>
       </ul>
       <ul>
-        <li *ngIf="!checkToken">
+        <li *ngIf="!access">
           <a href="login" class="nav-link ml-16">Đăng nhập</a>
         </li>
-        <li *ngIf="checkToken">
+        <li *ngIf="access">
           <a (click)="logout()" class="nav-link ml-16 cursor-pointer"
             >Đăng xuất</a
           >
