@@ -7,7 +7,6 @@ import { HomeComponent } from './page/home/home.component';
 import { SupportComponent } from './page/support/support.component';
 import { LayoutDefaultComponent } from './layout/layout-default/layout-default.component';
 import { LayoutPrivateComponent } from './layout/layout-private/layout-private.component';
-
 import { HeaderComponent } from './layout/header/header.component';
 import { LoginComponent } from './page/login/login.component';
 import { FormsModule } from '@angular/forms';
@@ -21,9 +20,10 @@ import { SpreadSheetsModule } from '@mescius/spread-sheets-angular';
 import { ResultDetailComponent } from './page/result-detail/result-detail.component';
 import { ListClassSubjectComponent } from './page/list-class-subject/list-class-subject.component';
 import { RegisterSubjectComponent } from './page/register-subject/register-subject.component';
+import { ListUniversityComponent } from './page/list-university/list-university.component';
+import { UniversityDetailComponent } from './page/university-detail/university-detail.component';
 
 @NgModule({
-  
   declarations: [
     AppComponent,
     HomeComponent,
@@ -39,6 +39,8 @@ import { RegisterSubjectComponent } from './page/register-subject/register-subje
     ResultDetailComponent,
     ListClassSubjectComponent,
     RegisterSubjectComponent,
+    ListUniversityComponent,
+    UniversityDetailComponent,
   ],
   imports: [
     BrowserModule,

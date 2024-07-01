@@ -13,7 +13,7 @@ import { UserStudentResponse } from 'src/app/models/student.models';
 export class HeaderComponent implements OnInit, OnDestroy {
   access: UserTeacherResponse | UserStudentResponse | undefined;
   subscription = Subscription.EMPTY;
-
+  isShow: boolean = false;
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit(): void {
     this.subscription = this.authService.access$.subscribe((data) => {
@@ -27,5 +27,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     localStorage.clear();
     this.authService.setAccess();
     this.router.navigateByUrl('login');
+  }
+  handleHidden() {
+    this.isShow = !this.isShow;
   }
 }

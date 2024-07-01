@@ -60,7 +60,7 @@
 </button>
 
 <p class="text-2xl">Học phần đã đăng ký</p>
-<div class="overflow-x-auto mb-4"  #content>
+<div class="overflow-x-auto mb-4" #content>
   <table class="table w-full mb-4" *ngIf="listClassSubject">
     <thead>
       <tr>
@@ -95,9 +95,5 @@
       <strong> Tổng số tín chỉ đã đăng ký: </strong>
       {{ listClassSubjectOfStudent.length }}
     </p>
-    <button class="btn inline-block bg-gray-900 mr-4" (click)="handleExport()">
-      Xem và in
-    </button>
   </div>
 </div>
-

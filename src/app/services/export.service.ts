@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
-import jsPDF from 'jspdf';
-import * as XLSX from 'xlsx-style';
+import * as XLSX from 'xlsx';
+import { PointExcel } from '../models/point.models';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -21,100 +22,88 @@ export class ExportService {
     this.saveExcelFile(excelBuffer, fileName);
   }
 
-  exportToPDF(htmlContent: HTMLElement, fileName: string = 'output.pdf'): void {
-    const doc = new jsPDF();
-    doc.setFontSize(18);
-    doc.text('My HTML Content', 20, 20);
-    doc.addPage();
-    doc.html(htmlContent, {
-      x: 20,
-      y: 20,
-      width: 170,
-      autoPaging: 'text',
-      windowWidth: 675,
+  exportToExcelListPoint(
+    student: any,
+    data: PointExcel[],
+    fileName: string
+  ): void {
+    // Tạo workbook
+    const workbook: XLSX.WorkBook = XLSX.utils.book_new();
+
+    // Tạo worksheet với các thông tin từ mẫu
+    const ws_data = [
+      [
+        'ĐẠI HỌC QUỐC GIA HÀ NỘI',
+        null,
+        null,
+        'CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM',
+      ],
+      ['TRUNG TÂM GIÁO DỤC', null, null, 'Độc lập - Tự do - Hạnh phúc'],
+      ['THỂ CHẤT VÀ THỂ THAO'],
+      [],
+      ['GIẤY CHỨNG NHẬN KẾT QUẢ HỌC TẬP'],
+      ['GIÁM ĐỐC TRUNG TÂM GIÁO DỤC THỂ CHẤT VÀ THỂ THAO'],
+      ['CHỨNG NHẬN'],
+      [],
+      ['Anh (Chị)', null, null, null, student.name, null, null, null, null],
+      [null, null, null, null],
+
+      [
+        'Ngày sinh',
+        null,
+        null,
+
+        student.dateOfBirth,
+        null,
+        null,
+        'Mã SV',
+        student.id,
+      ],
+      [
+        'Ngành',
+        null,
+        null,
+
+        student.classStudent.marjor.name,
+        null,
+        null,
+        'Lớp',
+        student.classStudent.name,
+      ],
+      [
+        'Đơn vị quản lý sinh viên:',
+        null,
+        null,
+        student.classStudent.marjor.university.name,
+      ],
+      [],
+      ['TT', 'Môn học', 'Số tín chỉ', 'Điểm', null, null],
+      [null, null, null, 'Hệ 10', 'Hệ chữ', 'Hệ 4'],
+    ];
+
+    // Thêm dữ liệu bảng vào worksheet
+    data.forEach((row) => {
+      ws_data.push([
+        row.STT,
+        row['Môn học'],
+        row['Tín chỉ'],
+        row['Điểm môn học'],
+        row['Thành chữ'],
+        row['Hệ 4'],
+      ]);
     });
-    doc.save(fileName);
-  }
 
-  exportCertificateExcel(jsonData: any[], fileName: string): void {
-    const data: any = [
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-      [],
-    ];
+    // Tạo worksheet từ ws_data
+    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(ws_data);
 
-    data[0][1] = 'ĐẠI HỌC QUỐC GIA HÀ NỘI';
-    data[1][1] = 'TRUNG TÂM GIÁO DỤC';
-    data[2][2] = 'THỂ CHẤT VÀ THỂ THAO';
-    data[0][6] = 'CỘNG HOÀ XÃ HỘI CHỦ NGHĨA VIỆT NAM';
-    data[1][6] = 'Độc lập - Tự do - Hạnh phúc';
-    data[7][0] = 'GIẤY CHỨNG NHẬN KẾT QUẢ HỌC TẬP';
-    data[8][0] = 'GIÁM ĐỐC TRUNG TÂM GIÁO DỤC THỂ CHẤT VÀ THỂ THAO';
-    data[9][0] = 'CHỨNG NHẬN';
-    data[11][1] = 'Anh (Chị) Phạm Minh Ngọc';
-    data[12][1] = 'Ngày sinh';
-    data[13][1] = 'Ngành';
-    data[14][1] = 'Đơn vị quản lý sinh viên';
-    data[12][9] = 'Mã sinh viên';
-    data[13][9] = 'Lớp';
+    // Thêm worksheet vào workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Sheet1');
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
-
-    worksheet['!merges'] = [
-      { s: { r: 0, c: 1 }, e: { r: 0, c: 5 } },
-      { s: { r: 1, c: 1 }, e: { r: 1, c: 5 } },
-      { s: { r: 1, c: 6 }, e: { r: 1, c: 8 } },
-      { s: { r: 2, c: 2 }, e: { r: 2, c: 4 } },
-      { s: { r: 7, c: 0 }, e: { r: 7, c: 10 } },
-      { s: { r: 8, c: 0 }, e: { r: 8, c: 10 } },
-      { s: { r: 9, c: 0 }, e: { r: 9, c: 10 } },
-    ];
-
-    const centerAlignment = { horizontal: 'center', vertical: 'center' };
-
-    worksheet['B1'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['B2'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['C3'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['G1'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['G2'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['A8'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['A9'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['A10'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['B12'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['B13'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['B14'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['J13'].s = { font: { bold: true }, alignment: centerAlignment };
-    worksheet['J14'].s = { font: { bold: true }, alignment: centerAlignment };
-
-    const workbook: XLSX.WorkBook = {
-      Sheets: { data: worksheet },
-      SheetNames: ['data'],
-    };
-
+    // Xuất file Excel
     const excelBuffer: any = XLSX.write(workbook, {
       bookType: 'xlsx',
       type: 'array',
-      cellStyles: true,
     });
-
     this.saveExcelFile(excelBuffer, fileName);
   }
 

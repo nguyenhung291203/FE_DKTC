@@ -1,6 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Point, ResultResponse,PointExcel } from 'src/app/models/point.models';
+import { Point, ResultResponse, PointExcel } from 'src/app/models/point.models';
 import { Student, UserStudentResponse } from 'src/app/models/student.models';
 import { ExportService } from 'src/app/services/export.service';
 import { PointService } from 'src/app/services/point.service';
@@ -18,7 +18,10 @@ export class ResultDetailComponent implements OnInit {
     debt: 0,
     gpa: 0,
   };
-  constructor(private pointService: PointService,private exportService:ExportService) {}
+  constructor(
+    private pointService: PointService,
+    private exportService: ExportService
+  ) {}
   ngOnInit(): void {
     const data = localStorage.getItem('access');
     if (data) {
@@ -43,19 +46,20 @@ export class ResultDetailComponent implements OnInit {
     return listPoint.map((point: Point, index: number) => {
       return {
         STT: index + 1,
-        'Mã số SV': point.student.id,
-        'Họ và tên': point.student.name,
-        'Ngày sinh': point.student.dateOfBirth,
+        'Môn học': point.classSubject.subject.name,
+        'Tín chỉ': point.classSubject.subject.credit,
         'Điểm chuyên cần': point.scoreNumberOne,
         'Điểm giữa kì': point.scoreNumberTwo,
         'Điểm thi': point.scoreNumberThree,
         'Điểm môn học': point.scoreTotal,
         'Thành chữ': point.scoreLetter,
+        'Hệ 4':point.scoreLaster
       };
     });
   }
-  handleExport():void{
-    this.exportService.exportCertificateExcel(
+  handleExport(): void {
+    this.exportService.exportToExcelListPoint(
+      this.student,
       this.mapListPointToListPointExport(this.listPoint),
       this.student.name + new Date()
     );

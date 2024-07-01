@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClassSubject } from 'src/app/models/classSubject.models';
-import { Teacher, UserTeacherResponse } from 'src/app/models/teacher.models';
+import { UserTeacherResponse } from 'src/app/models/teacher.models';
 import { ClassSubjectService } from 'src/app/services/class-subject.service';
 
 @Component({
@@ -15,7 +15,6 @@ export class ManagerScoreComponent implements OnInit {
   idClassSubject!: string | null;
   constructor(
     private classSubjectService: ClassSubjectService,
-    private router: Router
   ) {}
   ngOnInit(): void {
     const data = localStorage.getItem('access');

@@ -8,14 +8,13 @@ import {
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ClassSubject } from 'src/app/models/classSubject.models';
-import { Point, PointExcel } from 'src/app/models/point.models';
+import { Point, PointExcelClassDetail } from 'src/app/models/point.models';
 import { PointPayload } from 'src/app/models/request.models';
-import { Student } from 'src/app/models/student.models';
+
 import { ClassSubjectService } from 'src/app/services/class-subject.service';
 import { ExportService } from 'src/app/services/export.service';
 import { ImportService } from 'src/app/services/import.service';
 import { PointService } from 'src/app/services/point.service';
-import { StudentService } from 'src/app/services/student.service';
 
 @Component({
   selector: 'app-class-subject-detail',
@@ -109,7 +108,7 @@ export class ClassSubjectDetailComponent implements OnInit {
       this.handleCloseModel();
     }
   }
-  mapListPointToListPointExport(listPoint: Point[]): PointExcel[] {
+  mapListPointToListPointExport(listPoint: Point[]): PointExcelClassDetail[] {
     return listPoint.map((point: Point, index: number) => {
       return {
         STT: index + 1,
@@ -125,9 +124,9 @@ export class ClassSubjectDetailComponent implements OnInit {
     });
   }
   mapListPointExcelToListPointPayload(
-    listPointExcel: PointExcel[]
+    listPointExcel: PointExcelClassDetail[]
   ): PointPayload[] {
-    return listPointExcel.map((pointExcel: PointExcel) => {
+    return listPointExcel.map((pointExcel: PointExcelClassDetail) => {
       return {
         id: {
           studentId: pointExcel['Mã số SV'],
@@ -149,7 +148,7 @@ export class ClassSubjectDetailComponent implements OnInit {
     if (this.file) {
       this.importService
         .importExcel(this.file)
-        .subscribe((data: PointExcel[]) => {
+        .subscribe((data: PointExcelClassDetail[]) => {
           const res = this.mapListPointExcelToListPointPayload(data);
           this.pointService
             .editListPoint(res)

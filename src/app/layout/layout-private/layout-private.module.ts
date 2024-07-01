@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-
 import { LayoutPrivateComponent } from './layout-private.component';
 import { LayoutStudentComponent } from './layout-student/layout-student.component';
 import { LayoutTeacherComponent } from './layout-teacher/layout-teacher.component';
@@ -10,8 +9,10 @@ import { ClassSubjectDetailComponent } from 'src/app/page/class-subject-detail/c
 import { ResultDetailComponent } from 'src/app/page/result-detail/result-detail.component';
 import { ListClassSubjectComponent } from 'src/app/page/list-class-subject/list-class-subject.component';
 import { RegisterSubjectComponent } from 'src/app/page/register-subject/register-subject.component';
+import { ListUniversityComponent } from 'src/app/page/list-university/list-university.component';
+import { UniversityDetailComponent } from 'src/app/page/university-detail/university-detail.component';
 
-const token = localStorage.getItem('token');
+
 const routes: Routes = [
   {
     path: '',
@@ -30,9 +31,9 @@ const routes: Routes = [
             component: ListClassSubjectComponent,
           },
           {
-            path:"register-result",
-            component:RegisterSubjectComponent
-          }
+            path: 'register-result',
+            component: RegisterSubjectComponent,
+          },
         ],
       },
       {
@@ -43,12 +44,20 @@ const routes: Routes = [
             path: 'manager-score',
             component: ManagerScoreComponent,
           },
+          {
+            path: 'list-university',
+            component:ListUniversityComponent
+          },
         ],
       },
       {
         path: 'manager-score/:id',
         component: ClassSubjectDetailComponent,
       },
+      {
+        path:"list-university/:id",
+        component:UniversityDetailComponent
+      }
     ],
   },
 ];

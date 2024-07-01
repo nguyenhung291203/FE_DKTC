@@ -1,0 +1,65 @@
+<ng-container *ngIf="listStudent">
+  <div class="flex justify-between">
+    <div>
+      <h2 *ngIf="university" class="text-xl mt-4">
+        Đơn vị quản lý: {{ university.name }}
+      </h2>
+      <p><strong>Số lượng: </strong> {{ listStudent.length }}</p>
+      <p>
+        <strong>Số lượng sinh viên tốt nghiệp: </strong> {{ totalGraduate }}
+      </p>
+      <p>
+        <strong>Tỉ lệ tốt nghiệp: </strong
+        >{{ roundToTwoDecimals(totalGraduate / listStudent.length) }}%
+      </p>
+    </div>
+    <div class="flex items-end">
+      <button
+        type="button"
+        class="py-2.5 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+        (click)="exportAllAsPDF()"
+      >
+        Export all
+      </button>
+    </div>
+  </div>
+  <div class="overflow-x-auto">
+    <table class="table">
+      <!-- head -->
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Mã</th>
+          <th>Họ tên</th>
+          <th>Lớp</th>
+          <th>Chuyên ngành</th>
+          <th>Đã đăng ký</th>
+          <th>Đã hoàn thành</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let student of listStudent; let i = index"
+          class="hover:bg-zinc-900"
+        >
+          <td>{{ i + 1 }}</td>
+          <td>{{ student.id }}</td>
+          <td>{{ student.name }}</td>
+          <td>{{ student.classStudent.id }}</td>
+          <td>{{ student.classStudent.marjor.name }}</td>
+          <td>{{ student.registered }}</td>
+          <td>{{ student.totalGraduate }}</td>
+          <td>
+            <button
+              class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+              (click)="exportAsPDF(student.id)"
+            >
+              Export
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-container>

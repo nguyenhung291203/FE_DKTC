@@ -8,6 +8,11 @@ export interface Student {
   dateOfBirth: Date;
   classStudent: ClassStudent;
   user: User;
+  registered?: number;
+  totalGraduate?: number;
+  grade10?: number;
+  grade4?: number;
+  letterGrade?: string;
 }
 
 export interface UserStudentResponse {
